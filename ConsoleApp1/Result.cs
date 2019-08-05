@@ -89,5 +89,71 @@ namespace StockData
             return false; ;
 
         }
+         public static long teamFormation(List<int> score, int team, int m)
+        {
+            try
+            {
+                long finalCount = 0;
+                if (team == score.Count)
+                {
+                    Console.WriteLine(score.Sum());
+                    return score.Sum();
+                }
+                if(score.Count > 0 && team != 0 && m!=0)
+                {
+                    
+                    
+                    for(int j=0; j<team;j++)
+                    {
+                        Dictionary<int, int> first = new Dictionary<int, int>();
+                        Dictionary<int, int> second = new Dictionary<int, int>();
+                        for (int i = 0; i < m; i++)
+                        {
+                            first.Add(i, score[i]);
+                        }
+
+                        var len = score.Count() - m;
+
+                        for (int i = len; i < score.Count(); i++)
+                        {
+                            second.Add(i, score[i]);
+                        }
+
+                       
+                      
+                        var valueforfirst = first.Values.Max();
+                        var keyforfirst = first.FirstOrDefault(x => x.Value == valueforfirst).Key;
+
+                        var valueforSecond = second.Values.Max();
+                        var keyforSecond = second.FirstOrDefault(x => x.Value == valueforSecond).Key;
+                       
+
+                        if (valueforfirst >= valueforSecond)
+                        {
+                            finalCount += valueforfirst;
+                            score.RemoveAt(keyforfirst);
+                        }
+                        else if (valueforfirst <= valueforSecond)
+                        {
+                            finalCount += valueforSecond;
+                            score.RemoveAt(keyforSecond);
+                        }
+                        
+                    }
+                   
+
+
+                }
+                return finalCount;
+
+
+            }
+            catch
+            {
+
+            }
+            return 1;
+            
+        }
     }
 }
