@@ -21,8 +21,9 @@ namespace StockData
         *  1. STRING s
         *  2. STRING t
         */
-        public static int counter = 0;
+       public static int counter = 0;
         public static string connected = string.Empty;
+        public static string substr = string.Empty;
         public static int findSmallestDivisor(string s, string t)
         {
             connected = String.Concat(s, t);
@@ -30,18 +31,18 @@ namespace StockData
             {
                 if (s.Contains(t))
                 {
-                    if (t == s)
+                    if (t.Equals(s))
                     {
                         Console.WriteLine(1);
                         return 1;
                     }
 
-                    if (t + t == s)
+                    if (string.Equals((t + t), s))
                     {
                         Console.WriteLine(2);
                         return 2;
                     }
-
+                    substr = t;
                     if (AddString(t))
                     {
                         Console.WriteLine(counter);
@@ -51,9 +52,10 @@ namespace StockData
                     var small = string.Empty;
                     for (int i = 0; i < t.Length; i++)
                     {
-                        if (t.Substring(0, i) + t.Substring(0, i) == t)
+                        if (string.Equals((t.Substring(0, i) + t.Substring(0, i)), t))
                         {
                             small = t.Substring(0, i);
+                            substr = small;
                         }
                     }
                     if (small != string.Empty && AddString(small))
@@ -62,7 +64,7 @@ namespace StockData
                         return counter;
                     }
                 }
-                Console.ReadLine();
+                Console.WriteLine(-1);
                 return -1;
             }
             catch (Exception ex)
@@ -74,17 +76,15 @@ namespace StockData
 
         public static bool AddString(string s1)
         {
-            counter++;
-            while (counter < connected.Length)
+          
+            if (s1.Equals(connected))
             {
-                if (s1 == connected)
-                {
-                    return true;
-                }
-                else
-                {
-                    return AddString(s1 + s1);
-                }
+                return true;
+            }
+            counter++;
+            while (s1.Length < connected.Length)
+            {
+                return AddString(s1 + substr);
             }
             return false; ;
 
